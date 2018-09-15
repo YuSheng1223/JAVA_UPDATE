@@ -29,6 +29,99 @@
 
 <br> Lambda表达式 需要函数式接口的支持。
 <br>函数式接口指的是只有一个抽象方法的接口，我们可以在接口上加上@FunctionalInterface注解，来验证是不是函数式接口。
+
+
+
+四大内置函数式接口
+---------
+
+ 1. 消费性接口   Consumer<T>
+
+     void accept(T t); 有参数 但是无返回值
+     对类型为T的对象进行操作
+
+ 2. 供给型接口 Supplier<T>
+      T get();     无参数  返回一个T对象
+     返回类型为T的对象
+
+ 3. 函数型接口 Function<T,R>
+        R apply(T t);  有参数 有返回值
+    对类型为T的对象进行操作，并且返回结果。结果为类型是R的对象
+
+ 4. 断定型接口   Predicate<T>
+      boolean test(T t);  有参数 有返回值
+    判断类型为T的对象是否满足某种约束  返回boolean类型的值
+
+在java8中不仅仅只有这四个函数式接口，还有诸如 BiFunciton<T,U,R>,BiCunstorm<T,U>等函数式接口。合理应用每个接口才是重中之重。
+
+
+
+**### 方法的引用和构造器引用**
+
+<br> 方法的引用:     如果Lambda表达式方法体中的已经实现，我们就可以使用方法引用。
+<br>    三种语法格式:
+<br>    1.对象::实例方法
+<br> 	
+	
+		Consumer<String> cs = (x) -> System.out.println(x + "12313");
+		cs.accept("今天是周六");
+		// 改为方法引用
+		// 首先要注意 -> 后面的方法体的内容与 Consumer接口中的accept方法
+		// 参数列表相同 并且 返回值也相同
+		// public void println(String x)
+		// void accept(T t);
+		PrintStream ps = System.out;
+		cs = ps::println;
+
+		cs.accept("今天是周六");
+		
+<br>   2.类::静态方法名称
+      		
+		Comparator<Integer> ct = (x, y) -> Integer.compare(x, y);
+		int compare = ct.compare(5, 10);
+		System.out.println(compare);
+		// 方法引用 通过类名::静态方法名调用 参数列表和返回值也需要相同
+		// int compare(T o1, T o2);
+		// public static int compare(int x, int y)
+		ct = Integer::compare;
+		int compare2 = ct.compare(10, 5);
+<br>   3.类::实例方法名
+    		
+		BiPredicate<String, String> bp = (x, y) -> x.equals(y);
+		// 如果Lambda表达式体中 第一个参数为方法的调用者 第二个参数为方法的参数
+		// 就可以使用 类名:: 实例方法名称
+		BiPredicate<String, String> bp0 = String::equals;
+		boolean test = bp0.test("", "53");
+		System.out.println(test);
+构造器引用
+---
+
+语法格式： 类名::new
+
+	
+
+            Supplier<emp>  sp =  ()-> new emp();
+    		//返回一个对象
+    		sp.get();
+    		//利用构造器引用
+    		sp = emp::new;
+    		emp emp = sp.get();
+    		System.out.println(emp);
+    		
+    		
+数组引用：    数组类型::new
+
+
+	
+
+    Function<Integer,String[]> fc = (x) -> new String[x];
+    	String[] apply = fc.apply(10);
+    	System.out.println(apply.length);
+    	
+    	fc = String[]::new;
+    	String[] apply2 = fc.apply(15);
+    	System.out.println(apply2.length);
+	
 	 			
 
 			
