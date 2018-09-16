@@ -124,6 +124,78 @@
 	
 	 			
 
+
+# **Stream API ** #
+
+ 在数据源与数组、集合)与结果集之间，做一系列的流水线似的操作，这样会产生一个新的Stream流，但是不会对原来的数据源进行更改。
+
+注意点：
+     
+1. Stream不会自己存储元素
+2. Stream不会更改数据源，相反，它会返回一个新的流。
+3. Stream的操作是延迟执行的，这意味着他们会等到需要结果的时候才睡执行
+
+
+
+Stream的操作步骤：
+
+1. 创建Stream
+
+	(1). 通过Collection系列集合提供的stream()(串行)或者parallelSream(并行)创建
+    
+
+	 	    List<String>   list = new ArrayList<>();
+    		
+    		Stream<String> stream = list.stream();
+    (2).通过Arrays中的静态方法stream方法获得数组流
+    
+		    Student stu[]   = new Student[10];
+    		
+    		Stream<Student> stream2 = Arrays.stream(stu);
+
+    (3).通过Stream类中的静态方法 of
+
+		Stream<Integer> of = Stream.of(245,4354,345,14645);
+		//foreach() 方法需要一个Consumer 接口类型的对象
+		//然后 Lambda体部分使用方法的引用   forEach(System.out::println);
+		Consumer<Integer> con = (x)-> System.out.println(x);
+		of.sorted((x,y)-> x-y).forEach(con);
+		of.sorted((x,y)-> x-y).forEach(System.out::println);
+    
+
+
+    实际上  Stream的of()方法的参数列表的可变参数，调用的仍然是Arrays的stream()方法
+    
+
+     public static<T> Stream<T> of(T... values) {
+    return Arrays.stream(values);
+    }
+
+    
+    (4).创建无限流 迭代
+
+	参数： seed  UnaryOperator函数式接口  
+	从seed开始 进行迭代
+
+	因为UnaryOperator接口 继承了Function接口  这里传入的第二个参数 其实用的是 Function的 R apply(T t); 方法
+
+  	    	 Stream<Integer> iterate = Stream.iterate(0, (x) -> x+2);
+    		
+    		iterate.forEach(System.out::println);
+
+
+    (5).使用  Stream的generate同样可以达到迭代的效果 
+   
+
+    //supplier接口中的T get(); 方法  
+
+	`	Stream.generate(() ->Math.random()).forEach(System.out::println);`
+		
+    
+   
+
+
+
 			
 			
        
