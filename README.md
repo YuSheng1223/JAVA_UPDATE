@@ -192,7 +192,57 @@ Stream的操作步骤：
 	`	Stream.generate(() ->Math.random()).forEach(System.out::println);`
 		
     
-   
+   **Stream的筛选与切片**
+
+ 
+1. filter:将流中数据进行某种条件的筛选
+2. limit：截断流，给出指定数量的元素
+3. skip：去掉指定数量的元素
+4. distinct：去重
+
+        @Test
+    	public void method01() {
+    		
+    		Stream<emp> stream = list.stream();
+    		//筛选
+    		stream.filter((x) ->Integer.parseInt(x.getId()) > 45)
+    			   .forEach(System.out::println);
+    		
+    		
+    	}
+    	
+    	@Test
+    	public void method02() {
+    		
+    		IntStream stream = Arrays.stream(new int[] {1,2,3,4,5,6,7,8});
+    		//跳过
+    		stream.skip(2)
+    			  .forEach(System.out::print);
+    		//result 3 4 5 6 7 8 
+    		
+    		
+    	}
+    	
+    	@Test
+    	public void method03() {
+    
+    		IntStream stream = Arrays.stream(new int[] {1,2,3,4,5,6,7,8});
+    		//截取流
+    		stream.limit(3)
+    			  .forEach(System.out::print);	
+    		//result 1 2 3
+    	}
+    	
+    	@Test
+    	public void method04() {
+    
+    		IntStream stream = Arrays.stream(new int[] {1,2,3,4,5,6,7,8,1,1,1});
+    		//去重
+    		stream.filter((x) -> x<2)
+    			  .distinct()
+    			  .forEach(System.out::println);	
+    		// 1 
+    	}
 
 
 
