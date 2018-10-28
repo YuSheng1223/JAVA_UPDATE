@@ -193,7 +193,7 @@ Stream的操作步骤：
 		
     
    **Stream的筛选与切片**
-
+//比较常用的API
  
 1. filter:将流中数据进行某种条件的筛选
 2. limit：截断流，给出指定数量的元素
@@ -245,7 +245,19 @@ Stream的操作步骤：
     	}
 
 
+映射：
+    map---接收Lambda。将元素转换成其他形式或提取信息。接收一个函数作为参数，该函数会被应用到每个元素上，并将其映射成一个新的元素。
+    flatMap---接收一个函数作为参数，将流中的每个值都换成另一个流，然后把所有流连接成一个流。
 
+		List list = Arrays.asList("12","23","34","45");
+		
+		list.stream()
+			.map((x) -> x.equals("12"))
+			.forEach(System.out::println);
+		
+		输出： true false false false
+		
+		
 			
 			
        
